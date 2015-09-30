@@ -1,7 +1,7 @@
 package org.mcserver.minecraftserver;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MCServer {
 	static ServerSocket Server;
@@ -16,7 +20,7 @@ public class MCServer {
 	static InputStreamReader in;
 	static BufferedReader in1;
 	static OutputStream outputStream;
-    static InputStream inputStream;
+	static InputStream inputStream;
 
 	public static void startServer() throws Exception {
 		Server = new ServerSocket(25565);
@@ -38,32 +42,64 @@ public class MCServer {
 
 			inputStream = socket.getInputStream();
 			in = new InputStreamReader(inputStream);
-		    in1 = new BufferedReader(in);
-		    
-		    int packetId = in.read();
-			switch(packetId){
+			in1 = new BufferedReader(in);
+
+			int packetId = in.read();
+			switch (packetId) {
 			case 15:
-                final int version = in.read();
-                @SuppressWarnings("unused")
-                final int ip   = in.read();
-                @SuppressWarnings("unused")
-                final int port    = in.read();
-                final int state   = in.read();
-				System.out.println("User attempted to handshake.");
-				out.write(0x00);
-				out.writeUTF("{\"version\": {\"name\":\"1.8.7\",\"protocol\": 47},\"players\": {\"max\": 100,\"online\": 5,\"sample\": [{\"name\": \"thinkofdeath\",\"id\":\"4566e69f-c907-48ee-8d71-d7ba5aa00d20\"}]},\"description\": {\"text\": \"Hello world\"},\"favicon\": \"data:image/png;base64,<data>\"}}");
-				System.out.println(state+"");
+				final int version = in.read();
+				@SuppressWarnings("unused")
+				final int ip = in.read();
+				@SuppressWarnings("unused")
+				final int port = in.read();
+				final int state = in.read();
+				switch (state) {
+				case 108:
+					System.out.println("User attempted to handshake.");
+			        ByteArrayOutputStream b = new ByteArrayOutputStream();
+			        DataOutputStream handshake = new DataOutputStream(b);
+			        handshake.writeByte(0x00);
+			        JSONObject h = new JSONObject()
+	                .put("version", new JSONObject()
+	                        .put("name", "1.8.7")
+	                        .put("protocol", 47))
+	                .put("players", new JSONObject()
+	                        .put("max", 100)
+	                        .put("online", 5)
+	                        .put("sample", new JSONArray()
+	                                .put(new JSONObject()
+	                                        .put("name", "Bluesocks")
+	                                        .put("id", "8652d6de-69bd-4319-8991-065231982198"))))
+	                .put("description", new JSONObject()
+	                        .put("text", "Hello world"));
+			        handshake.writeUTF(h.toString());
+
+			        writeVarInt(out, b.size());
+			        out.write(b.toByteArray());
+			        writeVarInt(handshake, 1);
+
+					out.writeByte(0x01);
+					
+					break;
+				}
 				break;
 			case 65533:
 				System.out.println("User attemped to ping, sending pong.");
-				out.writeInt(0x01);
-				out.close();
-				in.close();
-				in1.close();
 			default:
 				break;
 			}
 			System.out.println(packetId);
 		}
 	}
+	public static void writeVarInt(DataOutputStream out, int paramInt) throws IOException {
+        while (true) {
+            if ((paramInt & 0xFFFFFF80) == 0) {
+              out.writeByte(paramInt);
+              return;
+            }
+
+            out.writeByte(paramInt & 0x7F | 0x80);
+            paramInt >>>= 7;
+        }
+    }
 }
