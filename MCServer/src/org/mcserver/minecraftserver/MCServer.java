@@ -39,7 +39,7 @@ public class MCServer {
 			in = new DataInputStream(inputStream);
 
 			int packetId = in.read();
-			PacketHandler.HandlePacket(in, out, packetId);
+			PacketHandler.handle(in, out, packetId);
 			out.close();
 			in.close();
 			socket.close();
