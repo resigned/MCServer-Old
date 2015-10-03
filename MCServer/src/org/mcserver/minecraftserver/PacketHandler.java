@@ -36,11 +36,10 @@ public class PacketHandler {
 				ByteBufUtils.writeVarInt(handshake, 1);
 			break;
 		case 65533:
-			//Get the data
 			ByteArrayOutputStream b2 = new ByteArrayOutputStream();
 			DataOutputStream pong = new DataOutputStream(b2);
 			pong.writeByte(0x01);
-			//Write the data
+			pong.writeLong(); //Get it
 			System.out.println("User attemped to ping, sending pong.");
 		default:
 			break;
