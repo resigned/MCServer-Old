@@ -13,7 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PacketHandler {
-	public static void handlePacket(DataInputStream in, DataOutputStream out, int packet) throws IOException, JSONException {
+	public static void handle(DataInputStream in, DataOutputStream out, int packet) throws IOException, JSONException {
 		switch (packet) {
 		case 15:
 			in.skip(3);
