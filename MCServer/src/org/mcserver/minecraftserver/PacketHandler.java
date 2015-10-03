@@ -13,7 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PacketHandler {
-	public static void HandlePacket(DataInputStream in, DataOutputStream out, int packet) throws IOException, JSONException {
+	public static void handlePacket(DataInputStream in, DataOutputStream out, int packet) throws IOException, JSONException {
 		switch (packet) {
 		case 15:
 			in.skip(3);
@@ -34,10 +34,13 @@ public class PacketHandler {
 				ByteBufUtils.writeVarInt(out, b.size());
 				out.write(b.toByteArray());
 				ByteBufUtils.writeVarInt(handshake, 1);
-
-				out.writeByte(0x01);
 			break;
 		case 65533:
+			//Get the data
+			ByteArrayOutputStream b2 = new ByteArrayOutputStream();
+			DataOutputStream pong = new DataOutputStream(b2);
+			pong.writeByte(0x01);
+			//Write the data
 			System.out.println("User attemped to ping, sending pong.");
 		default:
 			break;
