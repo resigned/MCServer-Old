@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 public class PacketHandler {
 	public static void handle(DataInputStream in, DataOutputStream out) throws IOException, JSONException {
-		switch (out.readByte()) {
+		switch (in.readByte()) {
 		case 0x00:
 			in.skip(3);
 			final int state = ByteBufUtils.readVarInt(in);
