@@ -1,4 +1,4 @@
-package org.mcserver.minecraftserver;
+package src.org.mcserver.minecraftserver;
 
 public class Server {
 	private int port;

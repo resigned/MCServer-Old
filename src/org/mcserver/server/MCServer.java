@@ -1,10 +1,10 @@
-package org.mcserver.minecraftserver;
+package src.org.mcserver.minecraftserver;
 
 public class MCServer {
 	static int port = 25565;
 	static Server server;
 
 	public static void main(String[] args) throws Exception {
-		server = new Server(port);
+		Server server = new Server(port);
 	}
 }

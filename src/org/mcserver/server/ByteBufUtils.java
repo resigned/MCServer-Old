@@ -1,4 +1,4 @@
-package org.mcserver.server;
+package src.org.mcserver.server;
 
 /*
  * This file is part of Flow Networking, licensed under the MIT License (MIT).

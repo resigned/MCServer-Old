@@ -1,4 +1,4 @@
-package org.mcserver.server;
+package src.org.mcserver.server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
