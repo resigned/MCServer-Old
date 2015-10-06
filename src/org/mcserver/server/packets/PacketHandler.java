@@ -20,7 +20,8 @@ public class PacketHandler extends Thread implements Runnable {
 	static OutputStream outputStream;
 	static InputStream inputStream;
 	@Override
-	public void start(){
+	public void run(){
+		while(true){
 			Socket socket = ssocket.accept();
 			outputStream = socket.getOutputStream();
 			out = new DataOutputStream(outputStream);
@@ -31,6 +32,7 @@ public class PacketHandler extends Thread implements Runnable {
 			out.close();
 			in.close();
 			socket.close();
+		}
 	}
 	public static void handle(DataInputStream in, DataOutputStream out) throws IOException, JSONException {
 		int LengthId = ByteBufUtils.readVarInt(in);
