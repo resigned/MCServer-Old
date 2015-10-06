@@ -5,6 +5,6 @@ public class MCServer {
 	static Server server;
 
 	public static void main(String[] args) throws Exception {
-		Server server = new Server(port);
+		server = new Server(port);
 	}
 }
