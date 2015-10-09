@@ -1,7 +1,6 @@
 package org.mcserver.minecraftserver.network.packets;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 
 import org.mcserver.minecraftserver.network.packets.Packet;
 import org.mcserver.minecraftserver.network.packets.handshake.PacketRecieveHandshake;
