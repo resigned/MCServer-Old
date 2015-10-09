@@ -12,12 +12,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class PacketHandler extends ChannelInboundHandlerAdapter {
-	static HashMap<Integer,Packet> Outgoing = new HashMap<Integer,Packet>();
-	static HashMap<Integer,Packet> Incoming = new HashMap<Integer,Packet>();
+	static HashMap<Byte,Packet> Outgoing = new HashMap<Byte,Packet>();
+	static HashMap<Byte,Packet> Incoming = new HashMap<Byte,Packet>();
 
 	
 	public static void setupRegistry(){
-		Incoming.put(0x00, PacketRecieveHandshake.class);
+		Incoming.put(0x00, new PacketRecieveHandshake());
 	}
 	
     @Override
