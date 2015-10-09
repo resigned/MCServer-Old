@@ -12,8 +12,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class PacketHandler extends ChannelInboundHandlerAdapter {
-	static HashMap<Integer,Class<? extends Packet>> Outgoing = new HashMap<Integer,Class<? extends Packet>>();
-	static HashMap<Integer,Class<? extends Packet>> Incoming = new HashMap<Integer,Class<? extends Packet>>();
+	static HashMap<Integer,Packet> Outgoing = new HashMap<Integer,Packet>();
+	static HashMap<Integer,Packet> Incoming = new HashMap<Integer,Packet>();
 
 	
 	public static void setupRegistry(){
