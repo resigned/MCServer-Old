@@ -1,6 +1,7 @@
 package org.mcserver.minecraftserver;
 
 import org.mcserver.minecraftserver.network.packets.PacketHandler;
+import org.mcserver.minecraftserver.network.session.SessionHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
 
@@ -32,6 +33,7 @@ public class Server {
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
                      ch.pipeline().addLast(new PacketHandler());
+                     ch.pipeline().addLast(new SessionHandler());
                  }
              })
              .option(ChannelOption.SO_BACKLOG, 128)
